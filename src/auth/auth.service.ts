@@ -1,14 +1,10 @@
-// src/auth/auth.service.ts (CORREGIDO)
 
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-// CORRECCIÓN 1: Simplificar rutas de importación.
-// Se asume que la entidad está en: src/users/entities/user.entity.ts
-// Y que el DTO está en: src/users/dto/create-user.dto.ts
-import { User, UserRole } from '../users/entities/user.entity/user.entity'; 
-import { CreateUserDto } from '../users/dto/create-user.dto/create-user.dto'; 
+import { CreateUserDto } from '../users/dto/create-user.dto/create-user.dto';
+import { User, UserRole } from '../users/entities/user.entity/user.entity';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {
@@ -57,8 +53,6 @@ export class AuthService {
   
   // Used by AuthController.register
   async register(createUserDto: CreateUserDto) {
-    // CORRECCIÓN 2: Aplicar aserción de tipo (as UserRole) para resolver el conflicto de tipos.
-    // Esto asegura que TypeScript acepta el string 'Cliente' como un valor del enum UserRole.
     const role = createUserDto.role || ('Cliente' as UserRole); 
     
     const user = await this.usersService.create({...createUserDto, role});

@@ -1,27 +1,21 @@
-// src/users/users.controller.ts (CORREGIDO)
 
-import { Controller, Get, Post, Body, Param, Delete, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 
-// 1. CORRECCIÓN DE RUTAS DE DTO Y ENTIDAD (Simplificadas)
-// Se asume la estructura estándar de NestJS:
 import { CreateUserDto } from './dto/create-user.dto/create-user.dto';
-import { UserRole } from './entities/user.entity/user.entity';     
+import { UserRole } from './entities/user.entity/user.entity';
 
-// 2. CORRECCIÓN DE RUTAS DE GUARDS Y DECORATOR (Simplificadas)
-// Se asume que estos archivos están directamente dentro de sus carpetas respectivas:
+import { Roles } from '../auth/decorators/roles.decorator/roles.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard/roles.guard';
-import { Roles } from '../auth/decorators/roles.decorator/roles.decorator';
 
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiBearerAuth()
 @ApiTags('Users (Admin Only)')
 @Controller('users')
 // Apply Auth and Roles Guards to the entire controller
 @UseGuards(JwtAuthGuard, RolesGuard)
-// 3. USO DEL ROL: Asumimos que el valor 'Administrador' está asociado a UserRole.ADMIN
 @Roles(UserRole.ADMIN) 
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}

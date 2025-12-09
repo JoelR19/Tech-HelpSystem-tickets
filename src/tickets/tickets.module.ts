@@ -1,11 +1,10 @@
-// src/tickets/tickets.module.ts
 
 import { Module } from '@nestjs/common';
-import { TicketsService } from './tickets.service';
-import { TicketsController } from './tickets.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from '../users/users.module';
 import { Ticket } from './entities/ticket.entity/ticket.entity';
-import { UsersModule } from '../users/users.module'; 
+import { TicketsController } from './tickets.controller';
+import { TicketsService } from './tickets.service';
 
 @Module({
   imports: [
